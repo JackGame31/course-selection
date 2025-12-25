@@ -23,15 +23,6 @@
 
                 {{-- content --}}
                 {{ $slot }}
-
-                {{-- logout --}}
-                <form method="POST" action="{{ route('logout') }}" class="mt-3">
-                    @method('DELETE')
-                    @csrf
-                    <button type="submit" class="button button--danger button--lg w-full">
-                        Logout
-                    </button>
-                </form>
             </div>
         </div>
     </div>

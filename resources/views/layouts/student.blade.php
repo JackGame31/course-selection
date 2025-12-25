@@ -50,6 +50,15 @@
     {{-- mobile sidebar --}}
     <x-mobile-sidebar :title="$title">
         @yield('sidebar')
+
+        {{-- logout --}}
+        <form method="POST" action="{{ route('logout') }}">
+            @method('DELETE')
+            @csrf
+            <button type="submit" class="button button--danger button--lg w-full">
+                Logout
+            </button>
+        </form>
     </x-mobile-sidebar>
 
     @yield('js')

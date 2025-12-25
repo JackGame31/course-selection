@@ -21,9 +21,9 @@ initEventDetailsDialog();
 initEventFormDialog();
 
 // calendar
+initResponsive();
 initCalendar(eventStore);
 initNotifications();
 initViewSelect();
 initUrl();
-initResponsive();
 initNav();

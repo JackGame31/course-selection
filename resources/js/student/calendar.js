@@ -19,9 +19,9 @@ initCourseAssignmentDialog();
 initCourseList();
 
 // calendar
+initResponsive();
 initCalendar(eventStore);
 initNotifications();
-initResponsive();
 initViewSelect();
 initUrl();
 initNav();
