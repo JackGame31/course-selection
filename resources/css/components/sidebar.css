@@ -1,0 +1,31 @@
+/* Sidebar container */
+.sidebar {
+    border-right: 1px solid var(--color-gray-300);
+    width: 23rem; /* Fixed width for desktop */
+    /* display: flex;
+    flex-direction: column;
+    gap: 1rem; */
+    padding: 1rem;
+    transition: width 0.3s ease-in-out; /* Smooth transition for resizing */
+}
+
+/* Sidebar logo */
+.sidebar__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    padding-bottom: 1rem;
+}
+
+/* Sidebar class list title */
+.sidebar h2 {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem; /* Space between title and class list */
+}
+
+/* Class list styling */
+.sidebar #classList {
+    flex: 1; /* Let the class list fill available space */
+}

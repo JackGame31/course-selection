@@ -1,0 +1,19 @@
+/* calendars */
+@import "./components/fab.css";
+@import "./components/week-calendar.css";
+@import "./components/form/color-select.css";
+@import "./components/form/form.css";
+@import "./components/form/input.css";
+@import "./components/form/select.css";
+@import "./components/navigation/nav.css";
+@import "./utilization/scroll.css";
+@import "./utilization/responsive.css";
+
+/* events */
+@import "./components/event/event-details.css";
+@import "./components/event/event-list.css";
+@import "./components/event/event.css";
+
+.calendar {
+    height: 100%;
+}

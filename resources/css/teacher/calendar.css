@@ -1,0 +1,13 @@
+/* calendars */
+@import "../calendar/fab.css";
+@import "../calendar/week-calendar.css";
+@import "../calendar/nav.css";
+
+/* events */
+@import "../calendar/event/event-details.css";
+@import "../calendar/event/event-list.css";
+@import "../calendar/event/event.css";
+
+.calendar {
+    height: 100%;
+}

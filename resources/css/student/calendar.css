@@ -1,0 +1,15 @@
+/* calendars */
+@import "../calendar/fab.css";
+@import "../calendar/week-calendar.css";
+@import "../calendar/nav.css";
+
+/* events */
+@import "../calendar/event/event-list.css";
+@import "../calendar/event/event.css";
+@import "./course-detail.css";
+@import "./course-submit.css";
+@import "./course-list.css";
+
+.calendar {
+    height: 100%;
+}
