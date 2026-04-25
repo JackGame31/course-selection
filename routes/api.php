@@ -10,6 +10,6 @@ Route::get('/user', function (Request $request) {
 
 // routes/api.php
 Route::get('/course', [CourseController::class, 'get']);
-Route::post('/course', [CourseController::class, 'store']);
+Route::post('/course/store', [CourseController::class, 'store']);
 Route::put('/course/{id}', [CourseController::class, 'update']);
 Route::delete('/course/{id}', [CourseController::class, 'destroy']);

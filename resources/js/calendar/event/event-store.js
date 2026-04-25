@@ -1,10 +1,49 @@
 import { isTheSameDay } from "../utilization/date.js";
 
 export function initEventStore() {
+    let allEvents = [];
+    let isLoaded = false;
+
+    /* ---------------------------
+       FETCH & CACHE
+    ---------------------------- */
+    async function loadEvents({ notify = false } = {}) {
+        const response = await fetch("/api/course?admin_id=" + admin_id, {
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch events");
+        }
+
+        allEvents = await response.json();
+        isLoaded = true;
+
+        if (notify) {
+            document.dispatchEvent(
+                new CustomEvent("events-change", { bubbles: true })
+            );
+        }
+    }
+
+    async function reloadEvents() {
+        await loadEvents();
+        document.dispatchEvent(
+            new CustomEvent("events-change", { bubbles: true })
+        );
+    }
+
+    /* ---------------------------
+       INIT LOAD (once)
+    ---------------------------- */
+    loadEvents({ notify: true }).catch(console.error);
+
+    /* ---------------------------
+       CREATE
+    ---------------------------- */
     document.addEventListener("event-create", async (e) => {
-        const eventData = e.detail.event;
         try {
-            const response = await fetch("/api/course/", {
+            const response = await fetch("/api/course/store", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -12,64 +51,53 @@ export function initEventStore() {
                         'meta[name="csrf-token"]'
                     ).content,
                 },
-                body: JSON.stringify(eventData),
+                body: JSON.stringify(e.detail.event),
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to create event");
-            }
+            if (!response.ok) throw new Error("Create failed");
 
-            // toast notification
             document.dispatchEvent(
                 new CustomEvent("toast-create", { bubbles: true })
             );
 
-            // update calendar
-            document.dispatchEvent(
-                new CustomEvent("events-change", { bubbles: true })
-            );
-        } catch (error) {
-            console.error(error);
-            alert("Error saving event");
+            await reloadEvents();
+        } catch (err) {
+            console.error(err);
         }
     });
 
-    document.addEventListener("event-delete", async (event) => {
-        const deletedEvent = event.detail.event;
+    /* ---------------------------
+       DELETE
+    ---------------------------- */
+    document.addEventListener("event-delete", async (e) => {
         try {
-            const response = await fetch("/api/course/" + deletedEvent.id, {
+            const response = await fetch("/api/course/" + e.detail.event.id, {
                 method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json",
                     "X-CSRF-TOKEN": document.querySelector(
                         'meta[name="csrf-token"]'
                     ).content,
                 },
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to delete event");
-            }
+            if (!response.ok) throw new Error("Delete failed");
 
-            // toast notification
             document.dispatchEvent(
                 new CustomEvent("toast-delete", { bubbles: true })
             );
 
-            // update calendar
-            document.dispatchEvent(
-                new CustomEvent("events-change", { bubbles: true })
-            );
-        } catch (error) {
-            console.error(error);
-            alert("Error delete event");
+            await reloadEvents();
+        } catch (err) {
+            console.error(err);
         }
     });
 
-    document.addEventListener("event-edit", async (event) => {
-        const editedEvent = event.detail.event;
+    /* ---------------------------
+       EDIT
+    ---------------------------- */
+    document.addEventListener("event-edit", async (e) => {
         try {
-            const response = await fetch("/api/course/" + editedEvent.id, {
+            const response = await fetch("/api/course/" + e.detail.event.id, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -77,63 +105,33 @@ export function initEventStore() {
                         'meta[name="csrf-token"]'
                     ).content,
                 },
-                body: JSON.stringify(editedEvent),
+                body: JSON.stringify(e.detail.event),
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to update event");
-            }
+            if (!response.ok) throw new Error("Edit failed");
 
-            // toast notification
             document.dispatchEvent(
                 new CustomEvent("toast-edit", { bubbles: true })
             );
 
-            // update calendar
-            document.dispatchEvent(
-                new CustomEvent("events-change", { bubbles: true })
-            );
-        } catch (error) {
-            console.error(error);
-            alert("Error delete event");
+            await reloadEvents();
+        } catch (err) {
+            console.error(err);
         }
     });
 
+    /* ---------------------------
+       PUBLIC API (SYNC)
+    ---------------------------- */
     return {
-        getEventsByDay: async (day) => {
-            try {
-                const events = await getEventsFromDatabase(admin_id);
-                const filteredEvents = events.filter((event) =>
-                    isTheSameDay(event.day, day)
-                );
+        getEventsByDay(day) {
+            if (!isLoaded) return [];
 
-                return filteredEvents;
-            } catch (error) {
-                console.error(error);
-                return [];
-            }
+            return allEvents.filter((event) => isTheSameDay(event.day, day));
+        },
+
+        getAllEvents() {
+            return allEvents;
         },
     };
-}
-
-async function getEventsFromDatabase(admin_id) {
-    try {
-        const response = await fetch("/api/course?admin_id=" + admin_id, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to fetch events from server");
-        }
-
-        const events = await response.json();
-
-        return events;
-    } catch (error) {
-        console.error(error);
-        throw error; // Re-throw to handle in callers
-    }
 }

@@ -119,21 +119,23 @@ export function initCourseList() {
 
     // Function to sync the checkboxes in both sidebars
     function syncCheckboxes(sourceCheckbox, sourceSidebar) {
-        // Get the ID of the checkbox being checked
         const courseId = sourceCheckbox.dataset.id;
         const isChecked = sourceCheckbox.checked;
 
-        // Determine the target checkboxes (opposite sidebar)
         const targetSidebar =
             sourceSidebar === "mobile" ? desktopCheckboxes : mobileCheckboxes;
 
-        // Find the corresponding checkbox in the other sidebar using the same data-id
         const targetCheckbox = Array.from(targetSidebar).find(
             (checkbox) => checkbox.dataset.id === courseId
         );
 
-        if (targetCheckbox) {
+        if (targetCheckbox && targetCheckbox.checked !== isChecked) {
             targetCheckbox.checked = isChecked;
+
+            // 🔥 Manually trigger change event
+            targetCheckbox.dispatchEvent(
+                new Event("change", { bubbles: true })
+            );
         }
     }
 
