@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Admin;
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -30,6 +32,19 @@ class AdminFactory extends Factory
       'password' => static::$password ??= Hash::make('password'),
       'remember_token' => Str::random(10),
     ];
+  }
+
+  /**
+   * Configure the factory to create 2-3 courses for each admin
+   */
+  public function configure()
+  {
+    return $this->afterCreating(function (Admin $admin) {
+      $numberOfCourses = rand(2, 3);
+      Course::factory($numberOfCourses)->create([
+        'admin_id' => $admin->id,
+      ]);
+    });
   }
 
   /**

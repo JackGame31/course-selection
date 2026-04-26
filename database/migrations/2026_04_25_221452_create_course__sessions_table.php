@@ -10,11 +10,11 @@ return new class extends Migration {
    */
   public function up(): void
   {
-    Schema::create('courses', function (Blueprint $table) {
+    Schema::create('course__sessions', function (Blueprint $table) {
       $table->id();
-      $table->string('title');
-
-      $table->foreignId('admin_id')->constrained()->cascadeOnDelete(); // teacher_id
+      $table->integer('session_number')->unique(); // 1-11
+      $table->time('start_time'); // e.g., '08:00:00'
+      $table->time('end_time'); // e.g., '08:50:00'
       $table->timestamps();
     });
   }
@@ -24,6 +24,6 @@ return new class extends Migration {
    */
   public function down(): void
   {
-    Schema::dropIfExists('courses');
+    Schema::dropIfExists('course__sessions');
   }
 };

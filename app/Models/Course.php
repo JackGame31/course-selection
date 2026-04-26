@@ -13,17 +13,7 @@ class Course extends Model
 
   protected $fillable = [
     'title',
-    'day',
-    'startTime',
-    'endTime',
-    'color',
     'admin_id'
-  ];
-
-  protected $casts = [
-    'day' => 'integer',
-    'startTime' => 'integer',
-    'endTime' => 'integer',
   ];
 
   public function teacher()
@@ -31,8 +21,13 @@ class Course extends Model
     return $this->belongsTo(Admin::class, 'admin_id');
   }
 
+  public function schedules()
+  {
+    return $this->hasMany(Course_Schedule::class);
+  }
+
   public function students()
   {
-    $this->belongsToMany(User::class)->withTimestamps();
+    return $this->belongsToMany(User::class)->withTimestamps();
   }
 }

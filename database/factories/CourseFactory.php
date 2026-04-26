@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
+use App\Models\Course_Schedule;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -34,62 +36,72 @@ class CourseFactory extends Factory
       'Project Management',
     ];
 
-    // Day (1–7)
-    $day = $this->faker->numberBetween(0, 6);
-
-    // Possible start times in 30-minute steps
-    // 08:00 (480) → 19:00 (1140)
-    $startTime = $this->faker->randomElement(
-      range(0, 1140, 30)
-    );
-
-    // Duration: 1h or 2h
-    $duration = $this->faker->randomElement([60, 120, 150, 180, 210, 240]);
-
-    // End time (rounded naturally since duration is multiple of 30)
-    $endTime = $startTime + $duration;
-
-    // Ensure not past 23:00 (1380)
-    if ($endTime > 1380) {
-      $endTime = 1380;
-      $startTime = $endTime - $duration;
-    }
-
-    // Course title + class code (A/B)
+    // Course title + class code (A/B/C/D)
     $title = $this->faker->randomElement($courses)
       . ' (' . $this->faker->randomElement(['A', 'B', 'C', 'D']) . ')';
 
     return [
       'title' => $title,
-      'day' => $day,
-      'startTime' => $startTime,
-      'endTime' => $endTime,
-      'color' => $this->randomDarkColor(),
       'admin_id' => $this->faker->numberBetween(1, 10),
     ];
   }
 
   /**
-   * Generate dark color safe for white text
+   * Configure the factory to create 1-2 course schedules
    */
-  private function randomDarkColor(): string
+  public function configure()
   {
-    do {
-      $color = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-    } while ($this->luminance($color) > 180);
+    return $this->afterCreating(function (Course $course) {
+      // Decide how many schedules to create: 1 or 2
+      $numberOfSchedules = $this->faker->randomElement([1, 2]);
 
-    return $color;
-  }
+      // Common start week for all schedules of this course
+      $sharedStartWeek = $this->faker->numberBetween(1, 19);
 
-  /**
-   * Perceived luminance
-   */
-  private function luminance(string $hex): float
-  {
-    $r = hexdec(substr($hex, 1, 2));
-    $g = hexdec(substr($hex, 3, 2));
-    $b = hexdec(substr($hex, 5, 2));
+      // Weekdays only: Monday (1) to Friday (5)
+      $availableDays = [1, 2, 3, 4, 5];
 
-    return 0.299 * $r + 0.587 * $g + 0.114 * $b;
+      // Session pairs: 1-2, 3-4, 5-6, 7-8, 9-10, 9-11
+      $sessionPairs = [
+        ['start' => 1, 'end' => 2],
+        ['start' => 3, 'end' => 4],
+        ['start' => 5, 'end' => 6],
+        ['start' => 7, 'end' => 8],
+        ['start' => 9, 'end' => 10],
+        ['start' => 9, 'end' => 11],
+      ];
+
+      $usedDays = [];
+
+      for ($i = 0; $i < $numberOfSchedules; $i++) {
+        // Pick a day that hasn't been used yet
+        $remainingDays = array_diff($availableDays, $usedDays);
+        $day = $this->faker->randomElement($remainingDays);
+        $usedDays[] = $day;
+
+        // Pick a random session pair
+        $pair = $this->faker->randomElement($sessionPairs);
+
+        // For the first schedule, pick an end week >= start week
+        // For subsequent schedules (i > 0), they can end 1 week earlier
+        if ($i === 0) {
+          $endWeek = $this->faker->numberBetween($sharedStartWeek, 19);
+        } else {
+          // Later schedule can end up to 1 week earlier, but not before start week
+          $maxEndWeek = max($sharedStartWeek, $endWeek - 1);
+          $endWeek = $this->faker->numberBetween($sharedStartWeek, $maxEndWeek);
+        }
+
+        // Create the schedule
+        Course_Schedule::create([
+          'course_id' => $course->id,
+          'day_of_week' => $day,
+          'start_session_id' => $pair['start'],
+          'end_session_id' => $pair['end'],
+          'start_week' => $sharedStartWeek,
+          'end_week' => $endWeek,
+        ]);
+      }
+    });
   }
 }

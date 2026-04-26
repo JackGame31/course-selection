@@ -14,7 +14,8 @@ class AdminController extends Controller
   public function calendar()
   {
     $courses = Course::where('admin_id', auth()->guard('admin')->id())->get();
-    return view('teacher.calendar', compact('courses'));
+    // return view('teacher.calendar', compact('courses'));
+    return view('teacher.test', compact('courses'));
   }
 
   // register
