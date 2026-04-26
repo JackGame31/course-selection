@@ -1,13 +1,77 @@
-/* calendars */
-@import "../calendar/fab.css";
-@import "../calendar/week-calendar.css";
-@import "../calendar/nav.css";
+/* ── FullCalendar overrides ── */
+.fc {
+    font-family: "DM Sans", sans-serif;
+}
+.fc .fc-toolbar-title {
+    font-family: "Lora", serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1714;
+}
+.fc .fc-button {
+    background: transparent !important;
+    border: 1px solid #e8e3db !important;
+    color: #1a1714 !important;
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+    padding: 5px 12px !important;
+    box-shadow: none !important;
+}
+.fc .fc-button:hover {
+    background: #f7f4ef !important;
+    border-color: #c4bfb8 !important;
+}
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+    background: #1a1714 !important;
+    border-color: #1a1714 !important;
+    color: #fff !important;
+}
+.fc .fc-button:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+.fc-theme-standard td,
+.fc-theme-standard th {
+    border-color: #e8e3db;
+}
+.fc .fc-daygrid-day-number,
+.fc .fc-col-header-cell-cushion {
+    color: #6b6560;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+}
+.fc .fc-day-today {
+    background: #f5ede9 !important;
+}
+.fc .fc-day-today .fc-daygrid-day-number {
+    color: #c0392b;
+    font-weight: 700;
+}
+.fc .fc-event {
+    border: none !important;
+    border-radius: 5px;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    transition:
+        opacity 0.12s,
+        transform 0.12s;
+}
+.fc .fc-event:hover {
+    opacity: 0.88;
+    transform: scale(1.02);
+}
 
-/* events */
-@import "../calendar/event/event-details.css";
-@import "../calendar/event/event-list.css";
-@import "../calendar/event/event.css";
-
-.calendar {
-    height: 100%;
+/* Input/select focus ring */
+.field-input:focus {
+    outline: none;
+    border-color: #1a1714;
+    box-shadow: 0 0 0 3px rgba(26, 23, 20, 0.07);
+    background: #fdfcf9;
 }
