@@ -6,69 +6,37 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ config('app.name') }} @isset($title)
-            | {{ $title }}</title>
-    @endisset
+            | {{ $title }}
+        @endisset
+    </title>
 
-    @yield('css')
-    @vite(['resources/css/teacher/index.css', 'resources/js/teacher/index.js'])
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="admin-id" content="{{ auth('admin')->id() }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @yield('css')
 </head>
 
-<body>
-    <div class="app">
-        {{-- sidebar --}}
-        <x-sidebar :title="$title">
-            @yield('sidebar')
+<body class="bg-[#f7f4ef] text-[#1a1714] min-h-screen">
+    <div class="max-w-[1200px] mx-auto px-6 py-7 pb-12">
+        {{-- header  --}}
+        <div class="flex items-center justify-between mb-7">
+            @yield('header')
+        </div>
 
-            <form method="POST" action="{{ route('teacher.logout') }}">
-                @method('DELETE')
-                @csrf
-                <button type="submit" class="button button--danger button--lg w-full">
-                    Logout
-                </button>
-            </form>
-        </x-sidebar>
-
-        <main class="main">
-            {{-- navigation --}}
-            <x-nav>
-                {{-- sidebar hamburger --}}
-                @include('components.hamburger')
-                @yield('nav')
-            </x-nav>
-
-            @yield('content')
-        </main>
+        {{-- main content --}}
+        @yield('content')
     </div>
 
+    {{-- other components, such as modals --}}
     @yield('others')
 
-    {{-- mobile sidebar --}}
-    <x-mobile-sidebar :title="$title">
-        @yield('sidebar')
-
-        {{-- logout --}}
-        <form method="POST" action="{{ route('teacher.logout') }}">
-            @method('DELETE')
-            @csrf
-            <button type="submit" class="button button--danger button--lg w-full">
-                Logout
-            </button>
-        </form>
-    </x-mobile-sidebar>
-
+    {{-- script --}}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js"></script>
     @yield('js')
-
-    {{-- get session message --}}
-    <script>
-        const sessionMessages = {
-            success: @json(session('success')),
-            error: @json(session('error')),
-        };
-    </script>
 </body>
 
 </html>

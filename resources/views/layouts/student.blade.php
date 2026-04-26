@@ -1,5 +1,5 @@
 @php
-    $title = 'Student Course Selection';
+    $title = trim($title ?? '') ?: env('WEBSITE_NAME', config('app.name'));
 @endphp
 
 <!DOCTYPE html>
@@ -8,9 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name') }} @isset($title)
-            | {{ $title }}</title>
-    @endisset
+    <title>{{ $title }}</title>
 
     @yield('css')
     @vite(['resources/css/student/index.css', 'resources/js/student/index.js'])
