@@ -64,3 +64,11 @@
 @section('others')
     @include('teacher.components.calendar-event-modal')
 @endsection
+
+@section('js')
+    <script>
+        window.teacherCalendarData = {
+            adminId: @json(auth('admin')->id()),
+        };
+    </script>
+@endsection

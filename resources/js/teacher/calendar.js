@@ -108,7 +108,7 @@ const DAYS = [
     "Saturday",
 ];
 // ── App state ─────────────────────────────────────────
-const ADMIN_ID = document.querySelector('meta[name="admin-id"]').content;
+const ADMIN_ID = window.teacherCalendarData?.adminId;
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 const courseStore = new Map();
 let editingCourseId = null;
