@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\Admin;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -11,7 +10,13 @@ class CourseController extends Controller
   public function get()
   {
     $admin_id = request('admin_id');
-    $courses = Course::where('admin_id', $admin_id)->with('schedules')->get();
+    $query = Course::with(['schedules', 'teacher']);
+
+    if ($admin_id) {
+      $query->where('admin_id', $admin_id);
+    }
+
+    $courses = $query->get();
     return response()->json($courses);
   }
 

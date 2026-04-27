@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Course;
-use App\Models\CourseUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,15 +13,9 @@ class StudentController extends Controller
   {
     // Check if the user has any selected courses (pivot exists)
     $isFinish = auth()->user()->courses()->exists();
-    if ($isFinish) {
-      // If yes, get the user's selected courses
-      $courses = auth()->user()->courses->load('teacher');
-    } else {
-      // If no, get all courses
-      $courses = Course::all();
-    }
+    $courses = $isFinish ? auth()->user()->courses->load('teacher') : collect();
 
-    return view('student.calendar', compact(['courses', 'isFinish']));
+    return view('student.test', compact(['courses', 'isFinish']));
   }
 
   public function submitCourseSelection()
