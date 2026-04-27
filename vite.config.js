@@ -9,13 +9,9 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/app.js",
 
-                "resources/js/student/index.js",
-                "resources/css/teacher/index.css",
                 "resources/js/student/calendar.js",
                 "resources/css/student/calendar.css",
 
-                "resources/js/teacher/index.js",
-                "resources/css/student/index.css",
                 "resources/js/teacher/calendar.js",
                 "resources/css/teacher/calendar.css",
             ],

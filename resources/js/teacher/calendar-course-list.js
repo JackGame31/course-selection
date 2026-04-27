@@ -1,5 +1,7 @@
-// ── Course List Functions ──────────────────────────────
 import { seededColor } from "./calendar-colors.js";
+import { openEditModal } from "./calendar-event-modal.js";
+
+// ── Course List Functions ──────────────────────────────
 export async function loadTeacherCourses() {
     try {
         const courses = await apiFetch(`/course?admin_id=${ADMIN_ID}`);
