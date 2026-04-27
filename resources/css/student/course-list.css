@@ -1,0 +1,80 @@
+/* Course list and selection cards */
+.course-list {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #e5e7eb transparent;
+}
+
+.course-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.course-list::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 4px;
+}
+
+.course-card {
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+}
+
+.course-card:hover {
+    background: #f9fafb;
+}
+
+.course-card.selected {
+    border-left-color: var(--course-color);
+    background: #f9fafb;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.progress-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: #e5e7eb;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.check-pop {
+    animation: popIn 0.25s ease forwards;
+}
+
+/* Tab underline styles */
+.tab-active {
+    border-bottom: 2px solid #2563eb;
+    color: #2563eb;
+}
+
+.tab-inactive {
+    border-bottom: 2px solid transparent;
+    color: #6b7280;
+}

@@ -15,7 +15,7 @@ class StudentController extends Controller
     $isFinish = auth()->user()->courses()->exists();
     $courses = $isFinish ? auth()->user()->courses->load('teacher') : collect();
 
-    return view('student.test', compact(['courses', 'isFinish']));
+    return view('student.calendar', compact(['courses', 'isFinish']));
   }
 
   public function submitCourseSelection()

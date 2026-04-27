@@ -1,0 +1,9 @@
+/* Sidebar scrolling */
+.sidebar-scroll {
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+    display: none;
+}
