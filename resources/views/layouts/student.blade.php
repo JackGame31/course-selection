@@ -14,7 +14,7 @@
         @endisset
     </title>
 
-    @vite(['resources/css/app.css', 'resources/css/modal.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/toast.js', 'resources/css/student/toast.css'])
     @yield('css')
 </head>
 
@@ -49,7 +49,17 @@
 
     @yield('others')
 
+    {{-- Toast container --}}
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js"></script>
+    <script>
+        window._sessions = {
+            success: @json(session('success')),
+            error: @json(session('error')),
+        };
+    </script>
+
     @yield('js')
 </body>
 

@@ -16,7 +16,7 @@
         href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
     @yield('css')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/toast.js'])
     <style>
         body {
             font-family: 'DM Sans', sans-serif;
@@ -121,34 +121,6 @@
             success: @json(session('success')),
             error: @json(session('error')),
         };
-
-        function showToast(message, type = 'success') {
-            const icons = {
-                success: '✓',
-                error: '✕'
-            };
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `
-                <span class="toast-icon">${icons[type] ?? '•'}</span>
-                <span class="toast-body">${message}</span>
-                <button class="toast-close" onclick="dismissToast(this.closest('.toast'))">&#x2715;</button>
-            `;
-            container.appendChild(toast);
-            setTimeout(() => dismissToast(toast), 4500);
-        }
-
-        function dismissToast(toast) {
-            if (!toast) return;
-            toast.classList.add('hiding');
-            setTimeout(() => toast.remove(), 300);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (_sessions.success) showToast(_sessions.success, 'success');
-            if (_sessions.error) showToast(_sessions.error, 'error');
-        });
     </script>
 </body>
 

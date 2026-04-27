@@ -1,7 +1,7 @@
 @extends('layouts.student')
 
 @section('css')
-    @vite(['resources/css/student/calendar.css', 'resources/js/student/calendar-student-colors.js', 'resources/js/student/calendar-student-course-list.js', 'resources/js/student/calendar-student-modal.js', 'resources/js/student/calendar-student-credits.js', 'resources/js/student/calendar-student-calendar.js', 'resources/js/student/calendar.js'])
+    @vite(['resources/css/student/calendar.css', 'resources/js/student/calendar-student-colors.js', 'resources/js/student/calendar-student-course-list.js', 'resources/js/student/calendar-student-modal.js', 'resources/js/student/calendar-student-credits.js', 'resources/js/student/calendar-student-calendar.js', 'resources/js/student/calendar.js', 'resources/css/modal.css'])
 @endsection
 
 @section('left_sidebar')

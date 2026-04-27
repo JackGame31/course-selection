@@ -16,7 +16,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="admin-id" content="{{ auth('admin')->id() }}">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/toast.js', 'resources/css/teacher/toast.css'])
     @yield('css')
 </head>
 
@@ -59,8 +59,18 @@
     {{-- Other components, such as modals --}}
     @yield('others')
 
+    {{-- Toast container --}}
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
     {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js"></script>
+    <script>
+        _sessions = {
+            success: @json(session('success')),
+            error: @json(session('error')),
+        };
+    </script>
+
     @yield('js')
 </body>
 
