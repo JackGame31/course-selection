@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -13,8 +12,7 @@ class AdminController extends Controller
   // calendar
   public function calendar()
   {
-    $courses = Course::where('admin_id', auth()->guard('admin')->id())->get();
-    return view('teacher.calendar', compact('courses'));
+    return view('teacher.calendar');
   }
 
   // register

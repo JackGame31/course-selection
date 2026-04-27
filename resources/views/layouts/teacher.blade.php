@@ -21,20 +21,45 @@
 </head>
 
 <body class="bg-[#f7f4ef] text-[#1a1714] min-h-screen">
-    <div class="max-w-[1200px] mx-auto px-6 py-7 pb-12">
-        {{-- header  --}}
-        <div class="flex items-center justify-between mb-7">
-            @yield('header')
-        </div>
+    <!-- Navigation Bar -->
+    @include('teacher.components.navbar')
 
-        {{-- main content --}}
-        @yield('content')
+    <!-- Main Layout -->
+    <div class="pt-14 flex h-screen overflow-hidden">
+        {{-- Optional left sidebar --}}
+        @if (View::hasSection('left_sidebar'))
+            <aside class="w-[288px] flex-shrink-0 bg-[#fdfcf9] border-r border-[#e8e3db] flex flex-col h-full">
+                @yield('left_sidebar')
+            </aside>
+        @endif
+
+        {{-- Main content area --}}
+        <main class="flex-1 flex flex-col overflow-hidden @if (!View::hasSection('left_sidebar')) bg-[#fdfcf9] @endif">
+            {{-- Page header with title and actions --}}
+            @if (View::hasSection('header'))
+                <div class="px-6 pt-5 pb-3 bg-[#fdfcf9] border-b border-[#e8e3db] flex items-center justify-between">
+                    @yield('header')
+                </div>
+            @endif
+
+            {{-- Main content --}}
+            <div class="flex-1 overflow-y-auto">
+                @yield('content')
+            </div>
+        </main>
+
+        {{-- Optional right sidebar --}}
+        @if (View::hasSection('right_sidebar'))
+            <aside class="w-[272px] flex-shrink-0 border-l border-[#e8e3db] bg-[#fdfcf9] flex flex-col">
+                @yield('right_sidebar')
+            </aside>
+        @endif
     </div>
 
-    {{-- other components, such as modals --}}
+    {{-- Other components, such as modals --}}
     @yield('others')
 
-    {{-- script --}}
+    {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js"></script>
     @yield('js')
 </body>

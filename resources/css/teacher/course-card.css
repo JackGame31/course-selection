@@ -1,0 +1,30 @@
+/* Course list styling */
+.course-list {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #c4bfb8 transparent;
+}
+
+.course-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.course-list::-webkit-scrollbar-thumb {
+    background: #c4bfb8;
+    border-radius: 4px;
+}
+
+.course-card {
+    border-left: 3px solid #e8e3db;
+    transition: all 0.15s;
+}
+
+.course-card:hover {
+    background: #f7f4ef;
+    border-left-color: #1a1714;
+}
+
+.course-card.selected {
+    border-left-color: #c0392b;
+    background: #fef1f0;
+}
