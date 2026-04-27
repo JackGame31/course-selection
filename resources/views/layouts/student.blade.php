@@ -23,7 +23,7 @@
 
     <div class="pt-14 flex h-screen overflow-hidden">
         @if (View::hasSection('left_sidebar'))
-            <aside class="w-[288px] flex-shrink-0 bg-white border-r border-gray-100 flex flex-col h-full">
+            <aside class="w-[288px] flex-shrink-0 bg-white border-r border-gray-100 flex flex-col h-full gap-4">
                 @yield('left_sidebar')
             </aside>
         @endif
